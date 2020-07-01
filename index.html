@@ -1,22 +1,40 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Scanner</title>
-    <script src="./node_modules/html5-qrcode/minified/html5-qrcode.min.js"></script>
-</head>
+    <title>Html-Qrcode Demo</title>
 <body>
-    <div style="width: 500px" id="reader"></div>
-    <script>
+    <div id="qr-reader" style="width:500px"></div>
+    <div id="qr-reader-results"></div>
+</body>
+<script src="html5-qrcode.min.js"></script>
+<script>
+    function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "complete"
+            || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    docReady(function () {
+        var resultContainer = document.getElementById('qr-reader-results');
+        var lastResult, countResults = 0;
         function onScanSuccess(qrCodeMessage) {
-            console.log(qrCodeMessage)
-            window.location = "http://ellie.local:5000/#" + qrCodeMessage;
+            if (qrCodeMessage !== lastResult) {
+                window.location = "http://ellie.local:5000/#" + qrCodeMessage;
+                // ++countResults;
+                // lastResult = qrCodeMessage;
+                // resultContainer.innerHTML
+                //     += `<div>[${countResults}] - ${qrCodeMessage}</div>`;
+            }
         }
 
         var html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
+            "qr-reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
-    </script>
-</body>
+    });
+</script>
+</head>
 </html>
