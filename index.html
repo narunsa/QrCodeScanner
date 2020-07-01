@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="node_modules/html5-qrcode/minified/html5-qrcode.min.js"></script>
+</head>
+<body>
+    <div style="width: 500px" id="reader"></div>
+    <script>
+        function onScanSuccess(qrCodeMessage) {
+            console.log(qrCodeMessage)
+            window.location = "http://ellie.local:5000/#" + qrCodeMessage;
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
