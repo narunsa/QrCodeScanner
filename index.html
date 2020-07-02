@@ -4,9 +4,20 @@
 <body>
     <div id="qr-reader" style="width:500px"></div>
     <div id="qr-reader-results"></div>
+    <input id="codeInput" type="text">
+    <button onclick="onSubmitCode()">Submit</button>
 </body>
 <script src="html5-qrcode.min.js"></script>
 <script>
+    function onSubmitCode() {
+        var code = document.getElementById("codeInput").value;
+        redirectToLost(code);
+    }
+
+    function redirectToLost(code) {
+        window.location = "http://ellie.local:5000/#" + code;
+    }
+
     function docReady(fn) {
         // see if DOM is already available
         if (document.readyState === "complete"
@@ -23,7 +34,7 @@
         var lastResult, countResults = 0;
         function onScanSuccess(qrCodeMessage) {
             if (qrCodeMessage !== lastResult) {
-                window.location = "http://ellie.local:5000/#" + qrCodeMessage;
+                redirectToLost(qrCodeMessage)
                 // ++countResults;
                 // lastResult = qrCodeMessage;
                 // resultContainer.innerHTML
